@@ -5,22 +5,16 @@
 
 class Mandelbrot: public Fractal
 {
+    Q_OBJECT
 public:
-    Mandelbrot(){};
+    Mandelbrot(){maxIter = 256;};
     Mandelbrot(QSize res);
-
-    void Image();
-    void Zoom(QSize MousePosition,double scaleFactor);
-
-    QImage *getImgPtr();
-    void setResolution(QSize res);
-private:
-    QImage* image;
-    QSize resolution;
-    double min_re = -2.5, max_re = 1;
-    double min_im = -1, max_im = 1;
-    const int maxIter = 250;
-    std::vector<cor> positions;
+    void Image() override;   
+signals:
+    void ImageRendered(QImage image);
+protected:
+    ldouble min_re = -2.5000000000, max_re = 1.000000000;
+    ldouble min_im = -1.000000000, max_im = 1.000000000;
 };
 
 #endif // MANDELBROT_H

@@ -1,32 +1,18 @@
-#include <QImage>
-#include <QPixmap>
-#include <QSize>
-#include <vector>
+#include "AbstractFractal.h"
 
-struct cor{
-    double centerX;
-    double centerY;
-    double sizeX;
-    double sizeY;
-    cor(double centerx,double centery,double sizex,double sizey){
-        centerX = centerx;
-        centerY = centery;
-        sizeY = sizey;
-        sizeX = sizex;
-    }
-};
-
-class Fractal{
+class Fractal: public AbstractFractal{
+    Q_OBJECT
 public:
-    void Image(double posX,double posY,double sizeX,double sizeY);
-    void Zoom(QSize MousePosition,double scaleFactor);
-    QImage* getImgPtr();
-private:
-    QImage *image;
-    QSize resolution;
-    QRgb coloring(int maxIter,int iter);
-    int maxIter;
-    double min_re, max_re;
-    double min_im, max_im;
-    std::vector<cor> positions;
+    Fractal(QSize res);
+    Fractal();
+
+    void Zoom(QSize MousePosition,ldouble scaleFactor) override;
+    void unZoom() override;
+    void setResolution(QSize res) override;
+    void increaseMaxIter() override;
+    void decreaseMaxIter() override;
+    void makePalette() override;
+    QRgb coloring(int iter,int maxIter) override;
+    QImage getImg() override;
+    QColor linearInterpolation(QColor &v, QColor &u, double a) override;
 };

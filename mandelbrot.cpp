@@ -1,72 +1,69 @@
 #include "mandelbrot.h"
 #include <QDebug>
 
-Mandelbrot::Mandelbrot(QSize res) {
-    image = new QImage(res,QImage::Format_RGB32);
+
+Mandelbrot::Mandelbrot(QSize res):Mandelbrot()
+{
+    image = QImage(res,QImage::Format_RGB32);
     resolution = res;
     positions.reserve(10);
-    positions[0] = cor(res.width() / 2,res.height() / 2,res.width(),res.height());
+    positions.push_back(cor(res.width() / 2,res.height() / 2,res.width(),res.height()));
+    makePalette();
+    maxIter = 256;
 }
+
+// void Mandelbrot::setResolution(QSize res)
+// {
+//     image = new QImage(res,QImage::Format_RGB32);
+//     resolution = res;
+//     positions.push_back(cor(res.width() / 2,res.height() / 2,res.width(),res.height()));
+// }
 
 void Mandelbrot::Image()
 {
-    double posX = positions.back().centerX, posY = positions.back().centerY;
-    double sizeX = positions.back().sizeX, sizeY = positions.back().sizeY;
+    ldouble posX = positions.back().centerX, posY = positions.back().centerY;
+    ldouble sizeX = positions.back().sizeX, sizeY = positions.back().sizeY;
 
-    double minX = posX - sizeX / 2,maxX = posX + sizeX / 2;
-    double minY = posY - sizeY / 2,maxY = posY + sizeY / 2;
+    ldouble minX = posX - sizeX / 2,maxX = minX + sizeX;
+    ldouble minY = posY - sizeY / 2,maxY = minY + sizeY;
 
-    int width = resolution.width();
-    int height = resolution.height();
+    ldouble width = resolution.width();
+    ldouble height = resolution.height();
 
-    double cr{},ci{};
-    double re{},im{};
+    ldouble x0{},x{};
+    ldouble y0{},y{};
 
-    double buf;
+    ldouble buf;
 
     int iter{};
 
-    int color{};
+    QColor color{};
 
-    double stepX = sizeX / width,stepY = sizeY / height;
+    ldouble x2 = 0,y2 = 0;
 
-    for (double x = minX, XImage = 0; x < maxX && XImage < width; x += stepX, XImage += 1) {
-        for (double y = minY, YImage = 0; y < maxY && YImage < height; y += stepY, YImage += 1) {
-            cr = min_re + (max_re - min_re) * x / width;
-            ci = min_im + (max_im - min_im) * y / height;
+    ldouble stepX = sizeX / width,stepY = sizeY / height;
 
-            re = 0,im = 0;
-            for(iter = 0;iter < maxIter;iter++){
-                buf = re * re - im * im + cr;
-                im = 2 * re * im + ci;
-                re = buf;
-                if(re * re + im * im > 2 * 2) break;
+    for (ldouble Px = minX, XImage = 0; Px < maxX && XImage < width; Px += stepX, XImage += 1) {
+        x0 = min_re + (max_re - min_re) * Px / width;
+        for (ldouble Py = minY, YImage = 0; Py < maxY && YImage < height; Py += stepY, YImage += 1) {
+            y0 = min_im + (max_im - min_im) * Py / height;
+
+            x = 0,y = 0;
+            x2 = 0,y2 = 0;
+            iter = 0;
+            while(x2 + y2 <= 4 && iter < maxIter){
+                y = 2 * x * y + y0;
+                x = x2 - y2 + x0;
+                x2 = x * x;
+                y2 = y * y;
+                iter++;
             }
-            color = float(maxIter - iter) / maxIter * 0xff;
-            image->setPixel(XImage,YImage,qRgb(color,color,color));
+
+            color = 255 - (255 * iter/maxIter);
+            image.setPixel(XImage,YImage,coloring(iter,maxIter));
         }
     }
 }
 
-void Mandelbrot::Zoom(QSize MousePosition, double scaleFactor)
-{
-    double posX = positions.back().centerX - positions.back().sizeX / 2.0 + MousePosition.width() / float(resolution.width()) * float(positions.back().sizeX);
-    double posY = positions.back().centerY - positions.back().sizeY / 2.0 + MousePosition.height() / float(resolution.height()) * float(positions.back().sizeY);
-    double sizeX = positions.back().sizeX * scaleFactor;
-    double sizeY = positions.back().sizeY * scaleFactor;
-    positions.push_back(cor(posX,posY,sizeX,sizeY));
-    this->Image();
-}
 
-QImage *Mandelbrot::getImgPtr()
-{
-    return image;
-}
-
-void Mandelbrot::setResolution(QSize res)
-{
-    image = new QImage(res,QImage::Format_RGB32);
-    resolution = res;
-    positions.push_back(cor(res.width() / 2,res.height() / 2,res.width(),res.height()));
-}
 

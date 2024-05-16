@@ -1,0 +1,10 @@
+release/Fractal.o
+release/main.o
+release/mandelbrot.o
+release/rendertread.o
+release/widget.o
+release/moc_AbstractFractal.o
+release/moc_Fractal.o
+release/moc_mandelbrot.o
+release/moc_rendertread.o
+release/moc_widget.o

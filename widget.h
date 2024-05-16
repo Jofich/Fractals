@@ -7,6 +7,8 @@
 #include <QDebug>
 #include <QPixmap>
 #include <QLabel>
+#include <QPainter>
+#include <QString>
 #include "mandelbrot.h"
 
 
@@ -27,19 +29,24 @@ public:
     ~Widget();
 protected:
     void mousePressEvent(QMouseEvent *event) override;
-private:
-    void updateLabel();
-
-    QSize resolution = {960,540};
+    void wheelEvent(QWheelEvent* event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void paintEvent(QPaintEvent *) override;
+public slots:
+    void updateLabel(QImage image);
+protected:
+    QSize resolution = {600,400};
     Ui::Widget *ui;
 
-    double scaleFactor = 0.2;
-    double scale = 1;
+    ldouble scaleFactor = 0.2;
+    ldouble scale = 1;
 
-    Mandelbrot fractal;
-    QImage *image;
-
-
+    Mandelbrot fractal{resolution};
     QLabel *label;
+    QPainter painter;
+
+    QPoint m_mousePos;
+
+    QString title = "Fractals";
 };
 #endif // WIDGET_H

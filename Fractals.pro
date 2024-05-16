@@ -9,13 +9,17 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Fractal.cpp \
     main.cpp \
     mandelbrot.cpp \
+    rendertread.cpp \
     widget.cpp
 
 HEADERS += \
+    AbstractFractal.h \
     Fractal.h \
     mandelbrot.h \
+    rendertread.h \
     widget.h
 
 FORMS += \
