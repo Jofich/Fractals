@@ -28,10 +28,12 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 protected:
+    void paintEvent(QPaintEvent *) override;
     void mousePressEvent(QMouseEvent *event) override;
     void wheelEvent(QWheelEvent* event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
-    void paintEvent(QPaintEvent *) override;
+    void increaseScaleFactor();
+    void decreaseScaleFactor();
 public slots:
     void updateLabel(QImage image);
 protected:
@@ -43,10 +45,14 @@ protected:
 
     Mandelbrot fractal{resolution};
     QLabel *label;
+    QPixmap pixmap{resolution};
     QPainter painter;
 
     QPoint m_mousePos;
 
     QString title = "Fractals";
+
+    bool drawZoomBox{true};
+
 };
 #endif // WIDGET_H

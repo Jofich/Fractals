@@ -36,15 +36,28 @@ void Widget::mousePressEvent(QMouseEvent *event)
 
 void Widget::wheelEvent(QWheelEvent *event)
 {
-    if(event->angleDelta().y() > 0){
+    if(QGuiApplication::keyboardModifiers().testFlag(Qt::ControlModifier)) {
+        if(event->angleDelta().y() > 0){
 
-        fractal.increaseMaxIter();
-        updateLabel(fractal.getImg());
+            increaseScaleFactor();
 
-    }if(event->angleDelta().y() < 0){
+        }if(event->angleDelta().y() < 0){
 
-        fractal.decreaseMaxIter();
-        updateLabel(fractal.getImg());
+            decreaseScaleFactor();
+
+        }
+    }
+    else{
+        if(event->angleDelta().y() > 0){
+
+            fractal.increaseMaxIter();
+            updateLabel(fractal.getImg());
+
+        }if(event->angleDelta().y() < 0){
+
+            fractal.decreaseMaxIter();
+            updateLabel(fractal.getImg());
+        }
     }
 
 }
@@ -55,18 +68,39 @@ void Widget::mouseMoveEvent(QMouseEvent *event)
     update();
 }
 
+void Widget::increaseScaleFactor()
+{
+    if(scaleFactor < 0.9){
+        scaleFactor += 0.05;
+    }
+}
+
+void Widget::decreaseScaleFactor()
+{
+    if(scaleFactor > 0.1){
+        scaleFactor -= 0.05;
+    }
+}
+
+
 void Widget::paintEvent(QPaintEvent *)
 {
-    QPainter painter(this);
-    painter.setPen(Qt::black);
-    auto rectangle = QRect{QPoint(0, 0), QSize(resolution.width() * scaleFactor, resolution.height() * scaleFactor)};
-    rectangle.moveCenter(m_mousePos);
-    painter.drawRect(rectangle);
+    if(drawZoomBox){
+        updateLabel(fractal.getImg());
+        QPainter painter(&pixmap);
+        painter.setPen(Qt::gray);
+        QRect rectangle = QRect{QPoint(0, 0), QSize(resolution.width() * scaleFactor, resolution.height() * scaleFactor)};
+        rectangle.moveCenter(m_mousePos);
+        painter.drawRect(rectangle);
+        label->setPixmap(pixmap);
+    }
 }
 
 
 void Widget::updateLabel(QImage image)
 {
-    label->setPixmap(QPixmap::fromImage(image));
+    pixmap = QPixmap::fromImage(image);
+    label->setPixmap(pixmap);
+
 }
 

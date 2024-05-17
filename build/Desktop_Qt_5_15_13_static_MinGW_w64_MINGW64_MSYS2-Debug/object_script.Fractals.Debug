@@ -1,0 +1,11 @@
+debug/Fractal.o
+debug/main.o
+debug/mandelbrot.o
+debug/rendertread.o
+debug/widget.o
+debug/fractals_plugin_import.o
+debug/moc_AbstractFractal.o
+debug/moc_Fractal.o
+debug/moc_mandelbrot.o
+debug/moc_rendertread.o
+debug/moc_widget.o
