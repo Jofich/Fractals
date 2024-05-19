@@ -9,6 +9,10 @@
 #include <QLabel>
 #include <QPainter>
 #include <QString>
+#include <map>
+#include <QFile>
+#include <QDir>>
+#include <fstream>
 #include "mandelbrot.h"
 
 
@@ -34,6 +38,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     void increaseScaleFactor();
     void decreaseScaleFactor();
+    void readPalettes();
 public slots:
     void updateLabel(QImage image);
 protected:
@@ -41,9 +46,9 @@ protected:
     Ui::Widget *ui;
 
     ldouble scaleFactor = 0.2;
-    ldouble scale = 1;
+    double scale = 1;
 
-    Mandelbrot fractal{resolution};
+    Fractal* fractal;
     QLabel *label;
     QPixmap pixmap{resolution};
     QPainter painter;
@@ -51,7 +56,9 @@ protected:
     QPoint m_mousePos;
 
     QString title = "Fractals";
-
+    std::vector<QString> namePalettes{"dragon_blaze","sea_foam","thunderstorm","venomous"};
+    QString curPalette = namePalettes[0];
+    std::map<QString,std::vector<QColor>> palettes;
     bool drawZoomBox{true};
 
 };

@@ -8,8 +8,8 @@ class Mandelbrot: public Fractal
     Q_OBJECT
 public:
     Mandelbrot(){maxIter = 256;};
-    Mandelbrot(QSize res);
-    void Image() override;   
+    Mandelbrot(QSize res,std::vector<QColor> pal);
+    void Image() override;
 signals:
     void ImageRendered(QImage image);
 protected:

@@ -3,14 +3,19 @@
 
 Widget::Widget(QWidget *parent): QWidget(parent) , ui(new Ui::Widget)
 {
-
+    readPalettes();
+    qRegisterMetaType<Mandelbrot>("Mandelbrot");
     ui->setupUi(this);
     label = new QLabel(this);
-    // QObject::connect(&fractal,SIGNAL(AbstractFractal::ImageRendered()),this,SLOT(Widget::updateLabel()));
+    fractal = new Mandelbrot(resolution,palettes[curPalette]);
+
+
+    bool success =  connect(fractal,SIGNAL(ImageRendered(QImage)),this,SLOT(updateLabel(QImage)));
+    Q_ASSERT(success);
+
     label->setMouseTracking(true);
     this->setMouseTracking(true);
-    fractal.Image();
-    updateLabel(fractal.getImg());
+    fractal->Image();
     this->setWindowTitle(title);
     this->setFixedSize(resolution);
 
@@ -25,12 +30,12 @@ void Widget::mousePressEvent(QMouseEvent *event)
 {
 
     if(event->button() == Qt::LeftButton){
-        fractal.Zoom(QSize(event->pos().x(), event->pos().y()),scaleFactor);
-        updateLabel(fractal.getImg());
+        fractal->Zoom(QSize(event->pos().x(), event->pos().y()),scaleFactor);
+        scale /= scaleFactor;
+        qDebug() << scale;
     }
     if(event->button() == Qt::RightButton){
-        fractal.unZoom();
-        updateLabel(fractal.getImg());
+        fractal->unZoom();
     }
 }
 
@@ -50,13 +55,11 @@ void Widget::wheelEvent(QWheelEvent *event)
     else{
         if(event->angleDelta().y() > 0){
 
-            fractal.increaseMaxIter();
-            updateLabel(fractal.getImg());
+            fractal->increaseMaxIter();
 
         }if(event->angleDelta().y() < 0){
 
-            fractal.decreaseMaxIter();
-            updateLabel(fractal.getImg());
+            fractal->decreaseMaxIter();
         }
     }
 
@@ -82,11 +85,37 @@ void Widget::decreaseScaleFactor()
     }
 }
 
+void Widget::readPalettes()
+{
+    int R{},G{},B{};
+    int lines{};
+    QDir::setCurrent("..//..//palettes//");
+    QStringList line{};
+    QString fileName{};
+    for(QString t:namePalettes){
+        fileName = t + ".txt";
+        std::ifstream in(fileName.toStdString());
+        in >> lines;
+        qDebug() << lines;
+        palettes[t].reserve(lines);
+        for(int i =0;i < lines;i++){
+            in >> R >> G >> B;
+            qDebug() << R << G << B;
+            palettes[t].push_back(QColor(R,G,B));
+        }
+        in.close();
+        // palettes[t].reserve(lines);
+        // while(in >> R >> G >>B){
+        //     palettes[t].push_back(QColor(R,G,B));
+        // }
+        // in.close();
+    }
+}
 
 void Widget::paintEvent(QPaintEvent *)
 {
     if(drawZoomBox){
-        updateLabel(fractal.getImg());
+        updateLabel(fractal->getImg());
         QPainter painter(&pixmap);
         painter.setPen(Qt::gray);
         QRect rectangle = QRect{QPoint(0, 0), QSize(resolution.width() * scaleFactor, resolution.height() * scaleFactor)};

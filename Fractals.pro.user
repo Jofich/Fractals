@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 13.0.0, 2024-05-16T20:49:24. -->
+<!-- Written by QtCreator 13.0.0, 2024-05-19T23:37:34. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -581,7 +581,6 @@
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/projects/Qt/Fractals/build/Desktop_Qt_6_7_0_shared_MinGW_w64_MINGW64_MSYS2-Debug</value>
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>

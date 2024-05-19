@@ -2,23 +2,16 @@
 #include <QDebug>
 
 
-Mandelbrot::Mandelbrot(QSize res):Mandelbrot()
+Mandelbrot::Mandelbrot(QSize res,std::vector<QColor> pal):Mandelbrot()
 {
-    image = QImage(res,QImage::Format_RGB32);
+    palette = pal;
+    maxIter = 256;
     resolution = res;
     positions.reserve(10);
     positions.push_back(cor(res.width() / 2,res.height() / 2,res.width(),res.height()));
-    makePalette();
-    maxIter = 256;
+    image = QImage(res,QImage::Format_RGB32);
+
 }
-
-// void Mandelbrot::setResolution(QSize res)
-// {
-//     image = new QImage(res,QImage::Format_RGB32);
-//     resolution = res;
-//     positions.push_back(cor(res.width() / 2,res.height() / 2,res.width(),res.height()));
-// }
-
 void Mandelbrot::Image()
 {
     ldouble posX = positions.back().centerX, posY = positions.back().centerY;
@@ -63,6 +56,7 @@ void Mandelbrot::Image()
             image.setPixel(XImage,YImage,coloring(iter,maxIter));
         }
     }
+    emit ImageRendered(image);
 }
 
 

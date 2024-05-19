@@ -12,7 +12,6 @@ SOURCES += \
     Fractal.cpp \
     main.cpp \
     mandelbrot.cpp \
-    rendertread.cpp \
     widget.cpp
 
 HEADERS += \

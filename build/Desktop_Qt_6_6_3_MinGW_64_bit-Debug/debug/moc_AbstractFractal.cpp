@@ -40,14 +40,16 @@ struct qt_meta_stringdata_CLASSAbstractFractalENDCLASS_t {};
 constexpr auto qt_meta_stringdata_CLASSAbstractFractalENDCLASS = QtMocHelpers::stringData(
     "AbstractFractal",
     "ImageRendered",
-    ""
+    "",
+    "image"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSAbstractFractalENDCLASS_t {
-    uint offsetsAndSizes[6];
+    uint offsetsAndSizes[8];
     char stringdata0[16];
     char stringdata1[14];
     char stringdata2[1];
+    char stringdata3[6];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSAbstractFractalENDCLASS_t::offsetsAndSizes) + ofs), len 
@@ -55,11 +57,13 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSAbstractFractalENDCLASS_t qt_me
     {
         QT_MOC_LITERAL(0, 15),  // "AbstractFractal"
         QT_MOC_LITERAL(16, 13),  // "ImageRendered"
-        QT_MOC_LITERAL(30, 0)   // ""
+        QT_MOC_LITERAL(30, 0),  // ""
+        QT_MOC_LITERAL(31, 5)   // "image"
     },
     "AbstractFractal",
     "ImageRendered",
-    ""
+    "",
+    "image"
 };
 #undef QT_MOC_LITERAL
 #endif // !QT_MOC_HAS_STRING_DATA
@@ -79,10 +83,10 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSAbstractFractalENDCLASS[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   20,    2, 0x06,    1 /* Public */,
+       1,    1,   20,    2, 0x06,    1 /* Public */,
 
  // signals: parameters
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::QImage,    3,
 
        0        // eod
 };
@@ -97,7 +101,8 @@ Q_CONSTINIT const QMetaObject AbstractFractal::staticMetaObject = { {
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<AbstractFractal, std::true_type>,
         // method 'ImageRendered'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QImage, std::false_type>
     >,
     nullptr
 } };
@@ -108,20 +113,19 @@ void AbstractFractal::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
         auto *_t = static_cast<AbstractFractal *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->ImageRendered(); break;
+        case 0: _t->ImageRendered((*reinterpret_cast< std::add_pointer_t<QImage>>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (AbstractFractal::*)();
+            using _t = void (AbstractFractal::*)(QImage );
             if (_t _q_method = &AbstractFractal::ImageRendered; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
                 *result = 0;
                 return;
             }
         }
     }
-    (void)_a;
 }
 
 const QMetaObject *AbstractFractal::metaObject() const
@@ -155,8 +159,9 @@ int AbstractFractal::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void AbstractFractal::ImageRendered()
+void AbstractFractal::ImageRendered(QImage _t1)
 {
-    QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_WARNING_POP

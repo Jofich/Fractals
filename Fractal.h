@@ -11,7 +11,7 @@ public:
     void setResolution(QSize res) override;
     void increaseMaxIter() override;
     void decreaseMaxIter() override;
-    void makePalette() override;
+    void setPalette(std::vector<QColor> pal) override;
     QRgb coloring(int iter,int maxIter) override;
     QImage getImg() override;
     QColor linearInterpolation(QColor &v, QColor &u, double a) override;
