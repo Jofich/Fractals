@@ -96,10 +96,8 @@ void Widget::readPalettes()
         fileName = t + ".txt";
         std::ifstream in(fileName.toStdString());
         in >> lines;
-        qDebug() << lines;
         palettes[t].reserve(lines);
         for(int i =0;i < lines;i++){
-            in >> R >> G >> B;
             qDebug() << R << G << B;
             palettes[t].push_back(QColor(R,G,B));
         }
