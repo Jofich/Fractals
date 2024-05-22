@@ -107,7 +107,11 @@ void Widget::readPalettes()
         in >> lines;
         palettes[t].reserve(lines);
         for(int i =0;i < lines;i++){
+<<<<<<< HEAD
             in >> R >> G >> B;
+=======
+            qDebug() << R << G << B;
+>>>>>>> 8a550bb0da31c48d744611b3edc7f75265f79d09
             palettes[t].push_back(QColor(R,G,B));
         }
         in.close();
