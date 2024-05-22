@@ -3,9 +3,6 @@
 class Fractal: public AbstractFractal{
     Q_OBJECT
 public:
-    Fractal(QSize res);
-    Fractal();
-
     void Zoom(QSize MousePosition,ldouble scaleFactor) override;
     void unZoom() override;
     void setResolution(QSize res) override;

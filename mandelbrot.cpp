@@ -26,11 +26,7 @@ void Mandelbrot::Image()
     ldouble x0{},x{};
     ldouble y0{},y{};
 
-    ldouble buf;
-
     int iter{};
-
-    QColor color{};
 
     ldouble x2 = 0,y2 = 0;
 
@@ -51,8 +47,6 @@ void Mandelbrot::Image()
                 y2 = y * y;
                 iter++;
             }
-
-            color = 255 - (255 * iter/maxIter);
             image.setPixel(XImage,YImage,coloring(iter,maxIter));
         }
     }

@@ -10,10 +10,11 @@
 #include <QPainter>
 #include <QString>
 #include <map>
-#include <QFile>
-#include <QDir>>
+#include <QDir>
 #include <fstream>
 #include "mandelbrot.h"
+#include "qcheckbox.h"
+
 
 
 
@@ -42,14 +43,18 @@ protected:
 public slots:
     void updateLabel(QImage image);
 protected:
-    QSize resolution = {600,400};
+    QSize resolution = {800,600};
+    QSize toolBarRes = {resolution.width(),resolution.height() / 20};
+    QSize LabelResolution = {resolution.width(),resolution.height()-toolBarRes.height()};
     Ui::Widget *ui;
+
+    QCheckBox *ZoomBox;
 
     ldouble scaleFactor = 0.2;
     double scale = 1;
 
     Fractal* fractal;
-    QLabel *label;
+    QLabel *fractalLabel;
     QPixmap pixmap{resolution};
     QPainter painter;
 
@@ -61,5 +66,11 @@ protected:
     std::map<QString,std::vector<QColor>> palettes;
     bool drawZoomBox{true};
 
+private slots:
+    void on_zoomBox_stateChanged(int arg1);
+    void on_ZoomBox_toggled(bool checked);
+    void on_zoomBox_toggled(bool checked);
+    void on_zoomBox_clicked();
+    void on_zoomBox_clicked(bool checked);
 };
 #endif // WIDGET_H

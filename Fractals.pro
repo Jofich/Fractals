@@ -1,4 +1,5 @@
 QT       += core gui
+QT += concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,6 +11,7 @@ CONFIG += c++17
 
 SOURCES += \
     Fractal.cpp \
+    burningship.cpp \
     main.cpp \
     mandelbrot.cpp \
     widget.cpp
@@ -17,8 +19,8 @@ SOURCES += \
 HEADERS += \
     AbstractFractal.h \
     Fractal.h \
+    burningship.h \
     mandelbrot.h \
-    rendertread.h \
     widget.h
 
 FORMS += \

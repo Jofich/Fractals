@@ -1,21 +1,29 @@
 #include "widget.h"
+#include "mandelbrot.h"
 #include "ui_widget.h"
+#include "burningship.h"
+
 
 Widget::Widget(QWidget *parent): QWidget(parent) , ui(new Ui::Widget)
 {
+
     readPalettes();
-    qRegisterMetaType<Mandelbrot>("Mandelbrot");
     ui->setupUi(this);
-    label = new QLabel(this);
-    fractal = new Mandelbrot(resolution,palettes[curPalette]);
-
-
+    fractalLabel = new QLabel(this);
+    QCheckBox *ZoomBox = new QCheckBox("C&ase sensitive", this);
+    fractal = new BurningShip(LabelResolution,palettes[curPalette]);
     bool success =  connect(fractal,SIGNAL(ImageRendered(QImage)),this,SLOT(updateLabel(QImage)));
     Q_ASSERT(success);
 
-    label->setMouseTracking(true);
-    this->setMouseTracking(true);
+    fractalLabel->move(0,toolBarRes.height());
+
+    ui->fractalLabel = fractalLabel;
+    ui->zoomBox = ZoomBox;
+
     fractal->Image();
+
+    fractalLabel->setMouseTracking(true);
+    this->setMouseTracking(true);
     this->setWindowTitle(title);
     this->setFixedSize(resolution);
 
@@ -68,6 +76,7 @@ void Widget::wheelEvent(QWheelEvent *event)
 void Widget::mouseMoveEvent(QMouseEvent *event)
 {
     m_mousePos = event->pos();
+    m_mousePos = QPoint(m_mousePos.x() / float(resolution.width()) * LabelResolution.width(),m_mousePos.y() / float(resolution.height()) * LabelResolution.height());
     update();
 }
 
@@ -96,19 +105,12 @@ void Widget::readPalettes()
         fileName = t + ".txt";
         std::ifstream in(fileName.toStdString());
         in >> lines;
-        qDebug() << lines;
         palettes[t].reserve(lines);
         for(int i =0;i < lines;i++){
             in >> R >> G >> B;
-            qDebug() << R << G << B;
             palettes[t].push_back(QColor(R,G,B));
         }
         in.close();
-        // palettes[t].reserve(lines);
-        // while(in >> R >> G >>B){
-        //     palettes[t].push_back(QColor(R,G,B));
-        // }
-        // in.close();
     }
 }
 
@@ -118,10 +120,10 @@ void Widget::paintEvent(QPaintEvent *)
         updateLabel(fractal->getImg());
         QPainter painter(&pixmap);
         painter.setPen(Qt::gray);
-        QRect rectangle = QRect{QPoint(0, 0), QSize(resolution.width() * scaleFactor, resolution.height() * scaleFactor)};
+        QRect rectangle = QRect{QPoint(0, 0), QSize(LabelResolution.width() * scaleFactor, LabelResolution.height() * scaleFactor)};
         rectangle.moveCenter(m_mousePos);
         painter.drawRect(rectangle);
-        label->setPixmap(pixmap);
+        fractalLabel->setPixmap(pixmap);
     }
 }
 
@@ -129,7 +131,18 @@ void Widget::paintEvent(QPaintEvent *)
 void Widget::updateLabel(QImage image)
 {
     pixmap = QPixmap::fromImage(image);
-    label->setPixmap(pixmap);
+    fractalLabel->setPixmap(pixmap);
 
+}
+
+void Widget::on_zoomBox_clicked()
+{
+    qDebug("Clicked");
+}
+
+
+void Widget::on_zoomBox_clicked(bool checked)
+{
+    qDebug() << checked;
 }
 

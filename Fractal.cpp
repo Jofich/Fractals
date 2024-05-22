@@ -2,10 +2,6 @@
 #include <QDebug>
 #include <algorithm>
 
-Fractal::Fractal()
-{
-
-}
 
 void Fractal::Zoom(QSize MousePosition, ldouble scaleFactor)
 {
@@ -16,6 +12,7 @@ void Fractal::Zoom(QSize MousePosition, ldouble scaleFactor)
         ldouble sizeY = positions.back().sizeY * scaleFactor;
         positions.push_back(cor(posX,posY,sizeX,sizeY));
         Image();
+
     }
 }
 
