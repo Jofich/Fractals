@@ -12,10 +12,14 @@
 #include <map>
 #include <QDir>
 #include <fstream>
+#include <QCheckBox>
+#include <QMenuBar>
+#include <QVBoxLayout>
+#include <QAction>
+#include <stack>
+
+#include "burningship.h"
 #include "mandelbrot.h"
-#include "qcheckbox.h"
-
-
 
 
 QT_BEGIN_NAMESPACE
@@ -40,16 +44,26 @@ protected:
     void increaseScaleFactor();
     void decreaseScaleFactor();
     void readPalettes();
+
 public slots:
     void updateLabel(QImage image);
+    void changePalette();
+    void changeFractal();
 protected:
-    QSize resolution = {800,600};
-    QSize toolBarRes = {resolution.width(),resolution.height() / 20};
-    QSize LabelResolution = {resolution.width(),resolution.height()-toolBarRes.height()};
+    //GUI
+    QVBoxLayout *boxLayout;
+    QMenuBar* menuBar;
+    QMenu *fractalMenu;
+    QMenu *coloring;
+
     Ui::Widget *ui;
 
-    QCheckBox *ZoomBox;
 
+    QSize resolution = {800,600};
+    QSize toolBarRes = {resolution.width(),resolution.height() / 20};
+    QSize LabelResolution = resolution;
+
+    //scale
     ldouble scaleFactor = 0.2;
     double scale = 1;
 
@@ -60,17 +74,18 @@ protected:
 
     QPoint m_mousePos;
 
+
+    std::stack<double> scales;
+    std::vector<QString> fractals{"Mandelbrot","Burning Ship"};
     QString title = "Fractals";
-    std::vector<QString> namePalettes{"dragon_blaze","sea_foam","thunderstorm","venomous"};
-    QString curPalette = namePalettes[0];
+    std::vector<QString> namePalettes{"Dragon blaze","Sea foam","Thunderstorm","Venomous"};
+    QString curPalette = "Sea foam",curFractal = fractals[0];
     std::map<QString,std::vector<QColor>> palettes;
+
+    //flags
     bool drawZoomBox{true};
 
 private slots:
-    void on_zoomBox_stateChanged(int arg1);
-    void on_ZoomBox_toggled(bool checked);
     void on_zoomBox_toggled(bool checked);
-    void on_zoomBox_clicked();
-    void on_zoomBox_clicked(bool checked);
 };
 #endif // WIDGET_H

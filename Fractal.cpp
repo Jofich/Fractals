@@ -3,11 +3,11 @@
 #include <algorithm>
 
 
-void Fractal::Zoom(QSize MousePosition, ldouble scaleFactor)
+void Fractal::Zoom(QPoint MousePosition, ldouble scaleFactor)
 {
     {
-        ldouble posX = positions.back().centerX - positions.back().sizeX / 2.0 + MousePosition.width() / float(resolution.width()) * float(positions.back().sizeX);
-        ldouble posY = positions.back().centerY - positions.back().sizeY / 2.0 + MousePosition.height() / float(resolution.height()) * float(positions.back().sizeY);
+        ldouble posX = positions.back().centerX - positions.back().sizeX / 2.0 + MousePosition.x() / float(resolution.width()) * float(positions.back().sizeX);
+        ldouble posY = positions.back().centerY - positions.back().sizeY / 2.0 + MousePosition.y() / float(resolution.height()) * float(positions.back().sizeY);
         ldouble sizeX = positions.back().sizeX * scaleFactor;
         ldouble sizeY = positions.back().sizeY * scaleFactor;
         positions.push_back(cor(posX,posY,sizeX,sizeY));
@@ -63,19 +63,28 @@ void Fractal::decreaseMaxIter()
 
 void Fractal::setPalette(std::vector<QColor> pal)
 {
-    palette = pal;
+    if(palette != pal){
+        palette = pal;
+        Image();
+    }
 }
 
 QRgb Fractal::coloring(int iter, int maxIter)
 {
-    int max_color = palette.size() - 1;
-    if (iter == maxIter)iter = 0;
-    double mu = 1.0*iter / maxIter;
-    mu *= max_color;
-    int i_mu = static_cast<size_t>(mu);
-    QColor color1 = palette[i_mu];
-    QColor color2 = palette[std::min(i_mu + 1, max_color)];
-    QColor c = linearInterpolation(color1, color2, mu - i_mu);
+    QColor c{};
+    if(palette.size() != 0){
+        int max_color = palette.size() - 1;
+        if (iter == maxIter)iter = 0;
+        double mu = 1.0*iter / maxIter;
+        mu *= max_color;
+        int i_mu = static_cast<size_t>(mu);
+        QColor color1 = palette[i_mu];
+        QColor color2 = palette[std::min(i_mu + 1, max_color)];
+        c = linearInterpolation(color1, color2, mu - i_mu);
+    }else{
+        double color = 1.0 * (maxIter - iter) / maxIter *  0xff;
+        c = QColor(color,color,color);
+    }
     return c.rgb();
 
     // QColor mapping(Qt::white);

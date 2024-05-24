@@ -1,36 +1,21 @@
 #ifndef ABSTRACTFRACTAL_H
 #define ABSTRACTFRACTAL_H
 
-#endif // ABSTRACTFRACTAL_H
+
 #include <QObject>
 #include <QImage>
 #include <qRgb>
 #include <QPixmap>
 #include <QSize>
 #include <vector>
-
-typedef long double ldouble;
-
-struct cor{
-    ldouble centerX;
-    ldouble centerY;
-    ldouble sizeX;
-    ldouble sizeY;
-    cor(ldouble centerx,ldouble centery,ldouble sizex,ldouble sizey){
-        centerX = centerx;
-        centerY = centery;
-        sizeY = sizey;
-        sizeX = sizex;
-    }
-};
-
+#include "coordinates.h"
 
 class AbstractFractal:public QObject
 {
     Q_OBJECT
 public:
     virtual void Image() = 0;
-    virtual void Zoom(QSize MousePosition,ldouble scaleFactor) = 0;
+    virtual void Zoom(QPoint MousePosition,ldouble scaleFactor) = 0;
     virtual void unZoom() = 0;
     virtual void setResolution(QSize res) = 0;
     virtual void increaseMaxIter() = 0;
@@ -54,3 +39,4 @@ protected:
     std::vector<QColor> palette;
 };
 
+#endif // ABSTRACTFRACTAL_H

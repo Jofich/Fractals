@@ -1,4 +1,5 @@
 #include "burningship.h"
+#include "QDebug"
 
 BurningShip::BurningShip(QSize res,std::vector<QColor> pal) {
     palette = pal;
@@ -15,8 +16,8 @@ void BurningShip::Image(){
     ldouble posX = positions.back().centerX, posY = positions.back().centerY;
     ldouble sizeX = positions.back().sizeX, sizeY = positions.back().sizeY;
 
-    ldouble minX = posX - sizeX / 2,maxX = minX + sizeX;
-    ldouble minY = posY - sizeY / 2,maxY = minY + sizeY;
+    ldouble minX = posX - sizeX / 2.0,maxX = minX + sizeX;
+    ldouble minY = posY - sizeY / 2.0,maxY = minY + sizeY;
 
     ldouble width = resolution.width();
     ldouble height = resolution.height();
@@ -44,3 +45,5 @@ void BurningShip::Image(){
     }
     emit ImageRendered(image);
 }
+
+

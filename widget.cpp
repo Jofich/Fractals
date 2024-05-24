@@ -1,7 +1,5 @@
 #include "widget.h"
-#include "mandelbrot.h"
 #include "ui_widget.h"
-#include "burningship.h"
 
 
 Widget::Widget(QWidget *parent): QWidget(parent) , ui(new Ui::Widget)
@@ -9,16 +7,44 @@ Widget::Widget(QWidget *parent): QWidget(parent) , ui(new Ui::Widget)
 
     readPalettes();
     ui->setupUi(this);
-    fractalLabel = new QLabel(this);
-    QCheckBox *ZoomBox = new QCheckBox("C&ase sensitive", this);
-    fractal = new BurningShip(LabelResolution,palettes[curPalette]);
+
+    scales.push(scale);
+    fractal = new Mandelbrot(LabelResolution,palettes[curPalette]);
     bool success =  connect(fractal,SIGNAL(ImageRendered(QImage)),this,SLOT(updateLabel(QImage)));
     Q_ASSERT(success);
 
-    fractalLabel->move(0,toolBarRes.height());
+    boxLayout = new QVBoxLayout(this);
+    boxLayout->setContentsMargins(0,0,0,0);
 
-    ui->fractalLabel = fractalLabel;
-    ui->zoomBox = ZoomBox;
+    menuBar = new QMenuBar();
+    fractalMenu = new QMenu("Fractals");
+    coloring = new QMenu("Color");
+
+    menuBar->addMenu(fractalMenu);
+    menuBar->addMenu(coloring);
+    QAction *action1;
+    for(QString fractalName : fractals){
+
+
+        action1 = new QAction(fractalName);
+        action1->setObjectName(fractalName);
+        fractalMenu->addAction(action1);
+        connect(fractalMenu->actions().back(), SIGNAL(triggered()), this,SLOT(changeFractal()));
+
+    }
+    for(QString color: namePalettes){
+
+        action1 = new QAction(color);
+        action1->setObjectName(color);
+        coloring->addAction(action1);
+        connect(coloring->actions().back(), SIGNAL(triggered()), this,SLOT(changePalette()));
+    }
+
+    this->layout()->setMenuBar(menuBar);
+
+    fractalLabel = new QLabel(this);
+    boxLayout->addWidget(fractalLabel);
+
 
     fractal->Image();
 
@@ -38,39 +64,42 @@ void Widget::mousePressEvent(QMouseEvent *event)
 {
 
     if(event->button() == Qt::LeftButton){
-        fractal->Zoom(QSize(event->pos().x(), event->pos().y()),scaleFactor);
-        scale /= scaleFactor;
-        qDebug() << scale;
+
+        fractal->Zoom(m_mousePos,scaleFactor);
+        scales.push(scales.top() / scaleFactor);
     }
     if(event->button() == Qt::RightButton){
-        fractal->unZoom();
+        if(scales.size() > 1){
+            fractal->unZoom();
+            scales.pop();
+        }
     }
+    qDebug() << scales.top();
 }
 
 void Widget::wheelEvent(QWheelEvent *event)
-{
-    if(QGuiApplication::keyboardModifiers().testFlag(Qt::ControlModifier)) {
-        if(event->angleDelta().y() > 0){
+{   if(drawZoomBox){
+        if(QGuiApplication::keyboardModifiers().testFlag(Qt::ControlModifier)) {
+            if(event->angleDelta().y() > 0){
 
-            increaseScaleFactor();
+                increaseScaleFactor();
 
-        }if(event->angleDelta().y() < 0){
+            }if(event->angleDelta().y() < 0){
 
-            decreaseScaleFactor();
+                decreaseScaleFactor();
 
+            }
+            return;
         }
     }
-    else{
-        if(event->angleDelta().y() > 0){
+    if(event->angleDelta().y() > 0){
 
-            fractal->increaseMaxIter();
+        fractal->increaseMaxIter();
 
-        }if(event->angleDelta().y() < 0){
+    }if(event->angleDelta().y() < 0){
 
-            fractal->decreaseMaxIter();
-        }
+        fractal->decreaseMaxIter();
     }
-
 }
 
 void Widget::mouseMoveEvent(QMouseEvent *event)
@@ -107,15 +136,13 @@ void Widget::readPalettes()
         in >> lines;
         palettes[t].reserve(lines);
         for(int i =0;i < lines;i++){
-<<<<<<< HEAD
             in >> R >> G >> B;
-=======
-            qDebug() << R << G << B;
->>>>>>> 8a550bb0da31c48d744611b3edc7f75265f79d09
             palettes[t].push_back(QColor(R,G,B));
         }
         in.close();
     }
+    palettes["White"] = {};
+    namePalettes.insert(namePalettes.begin(),"White");
 }
 
 void Widget::paintEvent(QPaintEvent *)
@@ -137,16 +164,40 @@ void Widget::updateLabel(QImage image)
     pixmap = QPixmap::fromImage(image);
     fractalLabel->setPixmap(pixmap);
 
+
 }
 
-void Widget::on_zoomBox_clicked()
+void Widget::changePalette()
 {
-    qDebug("Clicked");
+
+    fractal->setPalette(palettes[QObject::sender()->objectName()]);
+
 }
 
-
-void Widget::on_zoomBox_clicked(bool checked)
+void Widget::changeFractal()
 {
-    qDebug() << checked;
+    QString FractalName = QObject::sender()->objectName();
+    if(FractalName != curFractal){ // Mandelbrot
+        if(FractalName == fractals[0]){
+            fractal = new Mandelbrot(LabelResolution,palettes[curPalette]);
+            fractal->Image();
+            curFractal = FractalName;
+
+        }
+        else if(FractalName == fractals[1]){ // Burning ship
+            fractal = new BurningShip(LabelResolution,palettes[curPalette]);
+            fractal->Image();
+            curFractal = FractalName;
+        }
+    }
 }
+
+
+void Widget::on_zoomBox_toggled(bool checked)
+{
+    drawZoomBox =  checked;
+    updateLabel(fractal->getImg());
+}
+
+
 

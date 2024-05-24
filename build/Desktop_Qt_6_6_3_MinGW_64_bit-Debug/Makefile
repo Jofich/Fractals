@@ -404,7 +404,6 @@ Makefile: ../../Fractals.pro ../../../../IT/includes/Qt/6.6.3/mingw_64/mkspecs/f
 		../../Fractals.pro \
 		../../../../IT/includes/Qt/6.6.3/mingw_64/lib/Qt6Widgets.prl \
 		../../../../IT/includes/Qt/6.6.3/mingw_64/lib/Qt6Gui.prl \
-		../../../../IT/includes/Qt/6.6.3/mingw_64/lib/Qt6Concurrent.prl \
 		../../../../IT/includes/Qt/6.6.3/mingw_64/lib/Qt6Core.prl \
 		../../../../IT/includes/Qt/6.6.3/mingw_64/lib/Qt6EntryPoint.prl \
 		../../../../IT/includes/Qt/6.6.3/mingw_64/mkspecs/features/build_pass.prf
@@ -743,7 +742,6 @@ Makefile: ../../Fractals.pro ../../../../IT/includes/Qt/6.6.3/mingw_64/mkspecs/f
 ../../Fractals.pro:
 ../../../../IT/includes/Qt/6.6.3/mingw_64/lib/Qt6Widgets.prl:
 ../../../../IT/includes/Qt/6.6.3/mingw_64/lib/Qt6Gui.prl:
-../../../../IT/includes/Qt/6.6.3/mingw_64/lib/Qt6Concurrent.prl:
 ../../../../IT/includes/Qt/6.6.3/mingw_64/lib/Qt6Core.prl:
 ../../../../IT/includes/Qt/6.6.3/mingw_64/lib/Qt6EntryPoint.prl:
 ../../../../IT/includes/Qt/6.6.3/mingw_64/mkspecs/features/build_pass.prf:

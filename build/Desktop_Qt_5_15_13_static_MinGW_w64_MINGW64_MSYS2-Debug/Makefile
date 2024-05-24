@@ -366,6 +366,7 @@ Makefile: ../../Fractals.pro D:/prodramm/Useful\ prog/msys2/mingw64/qt5-static/s
 		D:/prodramm/Useful\ prog/msys2/mingw64/qt5-static/share/qt5/plugins/imageformats/qwebp.prl \
 		D:/prodramm/Useful\ prog/msys2/mingw64/qt5-static/lib/Qt5Widgets.prl \
 		D:/prodramm/Useful\ prog/msys2/mingw64/qt5-static/lib/Qt5Gui.prl \
+		D:/prodramm/Useful\ prog/msys2/mingw64/qt5-static/lib/Qt5Concurrent.prl \
 		D:/prodramm/Useful\ prog/msys2/mingw64/qt5-static/lib/Qt5Core.prl \
 		D:/prodramm/Useful\ prog/msys2/mingw64/qt5-static/lib/qtmain.prl \
 		D:/prodramm/Useful\ prog/msys2/mingw64/qt5-static/share/qt5/mkspecs/features/build_pass.prf
@@ -666,6 +667,7 @@ D:/prodramm/Useful\ prog/msys2/mingw64/qt5-static/share/qt5/plugins/imageformats
 D:/prodramm/Useful\ prog/msys2/mingw64/qt5-static/share/qt5/plugins/imageformats/qwebp.prl:
 D:/prodramm/Useful\ prog/msys2/mingw64/qt5-static/lib/Qt5Widgets.prl:
 D:/prodramm/Useful\ prog/msys2/mingw64/qt5-static/lib/Qt5Gui.prl:
+D:/prodramm/Useful\ prog/msys2/mingw64/qt5-static/lib/Qt5Concurrent.prl:
 D:/prodramm/Useful\ prog/msys2/mingw64/qt5-static/lib/Qt5Core.prl:
 D:/prodramm/Useful\ prog/msys2/mingw64/qt5-static/lib/qtmain.prl:
 D:/prodramm/Useful\ prog/msys2/mingw64/qt5-static/share/qt5/mkspecs/features/build_pass.prf:

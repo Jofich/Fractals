@@ -1,9 +1,14 @@
+#ifndef FRACTAL_H
+#define FRACTAL_H
+
 #include "AbstractFractal.h"
+
 
 class Fractal: public AbstractFractal{
     Q_OBJECT
 public:
-    void Zoom(QSize MousePosition,ldouble scaleFactor) override;
+    Fractal(){}
+    void Zoom(QPoint MousePosition,ldouble scaleFactor) override;
     void unZoom() override;
     void setResolution(QSize res) override;
     void increaseMaxIter() override;
@@ -13,3 +18,4 @@ public:
     QImage getImg() override;
     QColor linearInterpolation(QColor &v, QColor &u, double a) override;
 };
+#endif //FRACTAL_H

@@ -11,8 +11,9 @@ public:
     BurningShip(QSize res,std::vector<QColor> pal);
     void Image() override;
 protected:
-    ldouble min_re = -2.5000000000, max_re = 1.000000000;
-    ldouble min_im = -1.000000000, max_im = 1.000000000;
+    QColor getColor(int maxIter,int iter);
+    ldouble min_re = -2.5, max_re = 2.0;
+    ldouble min_im = -2.5, max_im = 1;
 };
 
 #endif // BURNINGSHIP_H

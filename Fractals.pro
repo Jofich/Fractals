@@ -1,5 +1,4 @@
 QT       += core gui
-QT += concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -20,6 +19,7 @@ HEADERS += \
     AbstractFractal.h \
     Fractal.h \
     burningship.h \
+    coordinates.h \
     mandelbrot.h \
     widget.h
 

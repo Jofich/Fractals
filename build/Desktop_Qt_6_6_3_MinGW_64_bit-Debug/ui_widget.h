@@ -39,10 +39,8 @@ public:
         toolBar->setGeometry(QRect(0, 0, 800, 30));
         zoomBox = new QCheckBox(Widget);
         zoomBox->setObjectName("zoomBox");
-        zoomBox->setGeometry(QRect(150, 20, 78, 15));
-        zoomBox->setCheckable(true);
-        zoomBox->setChecked(false);
-        zoomBox->setTristate(false);
+        zoomBox->setGeometry(QRect(670, 0, 81, 27));
+        zoomBox->setChecked(true);
 
         retranslateUi(Widget);
 
