@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../../widget.h"
+#include "../../../src/widget.h"
 #include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
@@ -45,20 +45,22 @@ constexpr auto qt_meta_stringdata_CLASSWidgetENDCLASS = QtMocHelpers::stringData
     "image",
     "changePalette",
     "changeFractal",
+    "changeDrawZoomBox",
     "on_zoomBox_toggled",
     "checked"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSWidgetENDCLASS_t {
-    uint offsetsAndSizes[16];
+    uint offsetsAndSizes[18];
     char stringdata0[7];
     char stringdata1[12];
     char stringdata2[1];
     char stringdata3[6];
     char stringdata4[14];
     char stringdata5[14];
-    char stringdata6[19];
-    char stringdata7[8];
+    char stringdata6[18];
+    char stringdata7[19];
+    char stringdata8[8];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSWidgetENDCLASS_t::offsetsAndSizes) + ofs), len 
@@ -70,8 +72,9 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSWidgetENDCLASS_t qt_meta_string
         QT_MOC_LITERAL(20, 5),  // "image"
         QT_MOC_LITERAL(26, 13),  // "changePalette"
         QT_MOC_LITERAL(40, 13),  // "changeFractal"
-        QT_MOC_LITERAL(54, 18),  // "on_zoomBox_toggled"
-        QT_MOC_LITERAL(73, 7)   // "checked"
+        QT_MOC_LITERAL(54, 17),  // "changeDrawZoomBox"
+        QT_MOC_LITERAL(72, 18),  // "on_zoomBox_toggled"
+        QT_MOC_LITERAL(91, 7)   // "checked"
     },
     "Widget",
     "updateLabel",
@@ -79,6 +82,7 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSWidgetENDCLASS_t qt_meta_string
     "image",
     "changePalette",
     "changeFractal",
+    "changeDrawZoomBox",
     "on_zoomBox_toggled",
     "checked"
 };
@@ -92,7 +96,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSWidgetENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -100,16 +104,18 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSWidgetENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,   38,    2, 0x0a,    1 /* Public */,
-       4,    0,   41,    2, 0x0a,    3 /* Public */,
-       5,    0,   42,    2, 0x0a,    4 /* Public */,
-       6,    1,   43,    2, 0x08,    5 /* Private */,
+       1,    1,   44,    2, 0x0a,    1 /* Public */,
+       4,    0,   47,    2, 0x0a,    3 /* Public */,
+       5,    0,   48,    2, 0x0a,    4 /* Public */,
+       6,    0,   49,    2, 0x0a,    5 /* Public */,
+       7,    1,   50,    2, 0x08,    6 /* Private */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::QImage,    3,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,    7,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Bool,    8,
 
        0        // eod
 };
@@ -130,6 +136,8 @@ Q_CONSTINIT const QMetaObject Widget::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'changeFractal'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'changeDrawZoomBox'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_zoomBox_toggled'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<bool, std::false_type>
@@ -146,7 +154,8 @@ void Widget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 0: _t->updateLabel((*reinterpret_cast< std::add_pointer_t<QImage>>(_a[1]))); break;
         case 1: _t->changePalette(); break;
         case 2: _t->changeFractal(); break;
-        case 3: _t->on_zoomBox_toggled((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
+        case 3: _t->changeDrawZoomBox(); break;
+        case 4: _t->on_zoomBox_toggled((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
         default: ;
         }
     }
@@ -171,13 +180,13 @@ int Widget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 5;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 4)
+        if (_id < 5)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 4;
+        _id -= 5;
     }
     return _id;
 }

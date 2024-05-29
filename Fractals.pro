@@ -9,22 +9,24 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Fractal.cpp \
-    burningship.cpp \
+    src/Fractals/Fractal.cpp \
+    src/Fractals/burningship.cpp \
     main.cpp \
-    mandelbrot.cpp \
-    widget.cpp
+    src/Fractals/mandelbrot.cpp \
+    src/Fractals/tricorn.cpp \
+    src/widget.cpp
 
 HEADERS += \
-    AbstractFractal.h \
-    Fractal.h \
-    burningship.h \
-    coordinates.h \
-    mandelbrot.h \
-    widget.h
+    src/Fractals/AbstractFractal.h \
+    src/Fractals/Fractal.h \
+    src/Fractals/burningship.h \
+    src/Fractals/coordinates.h \
+    src/Fractals/mandelbrot.h \
+    src/tricorn.h \
+    src/widget.h
 
 FORMS += \
-    widget.ui
+    src/widget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
