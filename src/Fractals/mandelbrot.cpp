@@ -50,6 +50,7 @@ void Mandelbrot::Image()
             image.setPixel(XImage,YImage,coloring(iter,maxIter));
         }
     }
+
     emit ImageRendered(image);
 }
 

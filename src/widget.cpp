@@ -25,19 +25,32 @@ Widget::Widget(QWidget *parent): QWidget(parent) , ui(new Ui::Widget)
     fractalMenu = new QMenu("Fractals");
     coloring = new QMenu("Color");
     settings = new QMenu("Settings");
+    ImageMenu = new QMenu("Image");
 
     zoomBox = new QAction("ZoomBox", this);
     zoomBox->setCheckable(true);
     zoomBox->setChecked(true);
     connect(zoomBox, SIGNAL(triggered()), this, SLOT(changeDrawZoomBox()));
 
+    menuBar->addMenu(ImageMenu);
     menuBar->addMenu(fractalMenu);
     menuBar->addMenu(coloring);
     menuBar->addMenu(settings);
 
+
     settings->addAction(zoomBox);
 
     QAction *action1;
+
+    action1 = new QAction(QString::fromUtf8(ImageMenuActions[0].c_str()));
+    action1->setObjectName(ImageMenuActions[0]);
+    ImageMenu->addAction(action1);
+    connect(ImageMenu->actions().back(), SIGNAL(triggered()),this,SLOT(saveImage()));
+
+    action1 = new QAction(QString::fromUtf8(ImageMenuActions[1].c_str()));
+    action1->setObjectName(ImageMenuActions[1]);
+    ImageMenu->addAction(action1);
+    connect(ImageMenu->actions().back(), SIGNAL(triggered()),this,SLOT(resetFractal()));
 
     for(QString fractalName : fractals){
         action1 = new QAction(fractalName);
@@ -46,7 +59,6 @@ Widget::Widget(QWidget *parent): QWidget(parent) , ui(new Ui::Widget)
         connect(fractalMenu->actions().back(), SIGNAL(triggered()), this,SLOT(changeFractal()));
     }
     for(QString color: namePalettes){
-
         action1 = new QAction(color);
         action1->setObjectName(color);
         coloring->addAction(action1);
@@ -185,6 +197,23 @@ void Widget::readPalettes()
     }
     palettes["White"] = {};
     namePalettes.insert(namePalettes.begin(),"White");
+    QDir::setCurrent("..//");
+}
+
+void Widget::saveImage()
+{
+    if(!QDir("Images").exists()){
+        QDir().mkdir("Images");
+    }
+    QDir::setCurrent("Images//");
+    if(!QDir(curFractal).exists()){
+        QDir().mkdir(curFractal);
+    }
+
+    QDir::setCurrent(curFractal + "//");
+    fractal->getImg().save(QDateTime::currentDateTime().toString("dd-MM-yyyy_hh-mm-ss") + ".jpg");
+    QDir::setCurrent("..//");
+    QDir::setCurrent("..//");
 }
 
 void Widget::paintEvent(QPaintEvent *)
@@ -235,6 +264,9 @@ void Widget::changeFractal()
         }
     }
     updateLabel(fractal->getImg());
+    scales = std::stack<double>();
+    scales.push(1);
+    currentScale->setText("Scale: " + QString::number(scales.top()));
     maxIter->setText("MaxIter: " + QString::number(fractal->getMaxIter()));
 }
 
@@ -242,6 +274,15 @@ void Widget::changeDrawZoomBox()
 {
     drawZoomBox = not drawZoomBox;
     updateLabel(fractal->getImg());
+}
+
+void Widget::resetFractal()
+{
+    fractal->Reset();
+    scales = std::stack<double>();
+    scales.push(1);
+    currentScale->setText("Scale: " + QString::number(scales.top()));
+    maxIter->setText("MaxIter: " + QString::number(fractal->getMaxIter()));
 }
 
 

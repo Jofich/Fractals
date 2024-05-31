@@ -21,10 +21,12 @@ public:
     virtual void increaseMaxIter() = 0;
     virtual void decreaseMaxIter() = 0;
     virtual void setPalette(std::vector<QColor> pal) = 0;
+    virtual void Reset() = 0;
     virtual int getMaxIter() = 0;
     virtual QRgb coloring(int iter,int maxIter) = 0;
     virtual QImage getImg() = 0;
     virtual QColor linearInterpolation(QColor &v, QColor &u, double a) = 0;
+
 
 public:
 signals:

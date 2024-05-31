@@ -41,8 +41,8 @@ void Fractal::setResolution(QSize res)
 {
     image = QImage(res,QImage::Format_RGBA64);
     resolution = res;
+
     positions.push_back(cor(res.width() / 2,res.height() / 2,res.width(),res.height()));
-    qDebug() << "Fractal setResolution" << positions.size();
 }
 
 void Fractal::increaseMaxIter()
@@ -67,6 +67,13 @@ void Fractal::setPalette(std::vector<QColor> pal)
         palette = pal;
         Image();
     }
+}
+
+void Fractal::Reset()
+{
+    positions = std::vector<cor>(1,positions[0]);
+    maxIter = 256;
+    Image();
 }
 
 QRgb Fractal::coloring(int iter, int maxIter)

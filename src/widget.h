@@ -16,6 +16,7 @@
 #include <QMenuBar>
 #include <QVBoxLayout>
 #include <QAction>
+#include <QDateTime>
 #include <stack>
 
 
@@ -46,12 +47,13 @@ protected:
     void increaseScaleFactor();
     void decreaseScaleFactor();
     void readPalettes();
-
 public slots:
     void updateLabel(QImage image);
     void changePalette();
     void changeFractal();
     void changeDrawZoomBox();
+    void resetFractal();
+    void saveImage();
 protected:
     //GUI
     QVBoxLayout *boxLayout;
@@ -59,6 +61,7 @@ protected:
     QMenu *fractalMenu;
     QMenu *coloring;
     QMenu *settings;
+    QMenu *ImageMenu;
     QAction *zoomBox;
 
     Ui::Widget *ui;
@@ -80,7 +83,7 @@ protected:
 
     QPoint m_mousePos;
 
-
+    std::string ImageMenuActions[2] = {"Save","Reset"};
     std::stack<double> scales;
     std::vector<QString> fractals{"Mandelbrot","Burning Ship","Tricorn"};
     QString title = "Fractals";
